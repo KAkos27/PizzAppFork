@@ -1,7 +1,13 @@
 package pizzapp;
 
 public class PizzApp extends javax.swing.JFrame {
-
+    double VegsoAr = 1;
+    double pizzaAr = 1;
+    double meret = 1;
+    int db = 1;
+    int extra1 = 0;
+    int extra2 = 0;
+    int extra3 = 0;
     public PizzApp() {
         initComponents();
     }
@@ -10,6 +16,7 @@ public class PizzApp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         lblValaszthato = new javax.swing.JLabel();
         cmdValaszthatoPizzak = new javax.swing.JComboBox<>();
         pnlMeret = new javax.swing.JPanel();
@@ -40,13 +47,30 @@ public class PizzApp extends javax.swing.JFrame {
 
         cmdValaszthatoPizzak.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Margherita", "Hawaii", "Songoku", "Diavola" }));
         cmdValaszthatoPizzak.setSelectedIndex(2);
+        cmdValaszthatoPizzak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdValaszthatoPizzakActionPerformed(evt);
+            }
+        });
 
         pnlMeret.setBorder(javax.swing.BorderFactory.createTitledBorder("Méret"));
 
+        buttonGroup1.add(rdbMeret25);
         rdbMeret25.setText("25 cm");
+        rdbMeret25.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbMeret25ItemStateChanged(evt);
+            }
+        });
 
+        buttonGroup1.add(rdbMeret32);
         rdbMeret32.setSelected(true);
         rdbMeret32.setText("32 cm");
+        rdbMeret32.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbMeret32ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlMeretLayout = new javax.swing.GroupLayout(pnlMeret);
         pnlMeret.setLayout(pnlMeretLayout);
@@ -76,9 +100,14 @@ public class PizzApp extends javax.swing.JFrame {
         lblFizFt.setText("Ft");
 
         lblAr.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblAr.setText("1750");
+        lblAr.setText("1990");
 
         numDb.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
+        numDb.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                numDbStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlFizetendoLayout = new javax.swing.GroupLayout(pnlFizetendo);
         pnlFizetendo.setLayout(pnlFizetendoLayout);
@@ -113,10 +142,25 @@ public class PizzApp extends javax.swing.JFrame {
         pnlExtrak.setBorder(javax.swing.BorderFactory.createTitledBorder("Extrák"));
 
         chbSajt.setText("sajt");
+        chbSajt.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chbSajtItemStateChanged(evt);
+            }
+        });
 
         chbHagyma.setText("hagyma");
+        chbHagyma.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chbHagymaItemStateChanged(evt);
+            }
+        });
 
         chbAnanasz.setText("ananász");
+        chbAnanasz.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chbAnanaszItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlExtrakLayout = new javax.swing.GroupLayout(pnlExtrak);
         pnlExtrak.setLayout(pnlExtrakLayout);
@@ -211,6 +255,82 @@ public class PizzApp extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmdValaszthatoPizzakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdValaszthatoPizzakActionPerformed
+        alaparkalk();
+        
+        Osszegszamolas();
+    }//GEN-LAST:event_cmdValaszthatoPizzakActionPerformed
+
+    private void Osszegszamolas() {
+        VegsoAr = ((pizzaAr * meret)+ extra1 + extra2 + extra3) * db;
+        lblAr.setText(VegsoAr + "");
+    }
+
+    private void rdbMeret25ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbMeret25ItemStateChanged
+        alaparkalk();
+        meret = 0.75;
+        Osszegszamolas();
+    }//GEN-LAST:event_rdbMeret25ItemStateChanged
+
+    private void rdbMeret32ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbMeret32ItemStateChanged
+        alaparkalk();
+        meret = 1;
+        Osszegszamolas();
+    }//GEN-LAST:event_rdbMeret32ItemStateChanged
+
+    private void alaparkalk() {
+        int pizzaIndex = cmdValaszthatoPizzak.getSelectedIndex();
+        if (pizzaIndex == 0){
+            pizzaAr = 1750;
+        }else if(pizzaIndex == 1){
+            pizzaAr = 1890;
+        }else if(pizzaIndex == 2){
+            pizzaAr = 1990;
+        }else if(pizzaIndex == 3){
+            pizzaAr = 2150;
+        }
+    }
+
+    private void numDbStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numDbStateChanged
+
+        db = (int) numDb.getValue();
+        alaparkalk();
+        Osszegszamolas();
+    }//GEN-LAST:event_numDbStateChanged
+
+    private void chbSajtItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbSajtItemStateChanged
+        boolean feltetel = chbSajt.isSelected();
+        if (feltetel){
+            extra1 = 100;
+        }else{
+            extra1 = 0;
+        }
+        alaparkalk();
+        Osszegszamolas();
+    }//GEN-LAST:event_chbSajtItemStateChanged
+
+    private void chbHagymaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbHagymaItemStateChanged
+        boolean feltetel = chbHagyma.isSelected();
+        if (feltetel){
+            extra2 = 100;
+        }else{
+            extra2 = 0;
+        }
+        alaparkalk();
+        Osszegszamolas();
+    }//GEN-LAST:event_chbHagymaItemStateChanged
+
+    private void chbAnanaszItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbAnanaszItemStateChanged
+        boolean feltetel = chbAnanasz.isSelected();
+        if (feltetel){
+            extra3 = 100;
+        }else{
+            extra3 = 0;
+        }
+        alaparkalk();
+        Osszegszamolas();
+    }//GEN-LAST:event_chbAnanaszItemStateChanged
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -245,6 +365,7 @@ public class PizzApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRendel;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chbAnanasz;
     private javax.swing.JCheckBox chbHagyma;
     private javax.swing.JCheckBox chbSajt;
